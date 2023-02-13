@@ -14,7 +14,7 @@ public class GUI implements ActionListener {
     JButton decimalButton,equalsButton,negativeButton;
     JButton deleteButton,clearButton;
     JPanel window;
-    Font font = new Font("Garamond", Font.BOLD, 20);
+    Font font = new Font("Sarif", Font.BOLD, 20);
     char operation;
     double num1 =0, num2 = 0, result = 0;
     protected void setupGUI() {
