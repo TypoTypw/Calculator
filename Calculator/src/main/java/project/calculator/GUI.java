@@ -10,15 +10,9 @@ public class GUI implements ActionListener {
     JTextField textField;
     JButton[] numberButtons = new JButton[10];
     JButton[] operationButtons = new JButton[9];
-    JButton addButton;
-    JButton subtractButton;
-    JButton divideButton;
-    JButton multiplyButton;
-    JButton decimalButton;
-    JButton equalsButton;
-    JButton negativeButton;
-    JButton deleteButton;
-    JButton clearButton;
+    JButton addButton, subtractButton,divideButton, multiplyButton;
+    JButton decimalButton,equalsButton,negativeButton;
+    JButton deleteButton,clearButton;
     JPanel window;
     Font font = new Font("Garamond", Font.BOLD, 20);
     char operation;
@@ -117,13 +111,66 @@ public class GUI implements ActionListener {
         window.add(equalsButton);
     }
 
-
     public void actionPerformed(ActionEvent e) {
+        appendToTextField(e);
+        appendOperationToTextField(e);
+        getResult(e);
+        clearOrDeleteFromTextField(e);
+        applyNegative(e);
+    }
+
+    private void appendToTextField(ActionEvent e) {
         for (int i = 0; i < 10; i++){
             if(e.getSource() == numberButtons[i]){
                 textField.setText(textField.getText().concat(String.valueOf(i)));
             }
         }
+    }
+
+    private void applyNegative(ActionEvent e) {
+        if (e.getSource() == negativeButton){
+            double value = Double.parseDouble(textField.getText());
+            value *= -1;
+            textField.setText(String.valueOf(value));
+        }
+    }
+
+    private void clearOrDeleteFromTextField(ActionEvent e) {
+        if (e.getSource() == clearButton){
+            textField.setText("");
+        }
+        if (e.getSource() == deleteButton){
+            String value = textField.getText();
+            textField.setText("");
+            for (int i = 0; i < value.length()-1; i++){
+                textField.setText(textField.getText()+ value.charAt(i));
+            }
+        }
+    }
+
+    private void getResult(ActionEvent e) {
+        if (e.getSource() == equalsButton){
+            num2 = Double.parseDouble(textField.getText());
+            switch (operation){
+                case '+':
+                    result = num1+num2;
+                    break;
+                case '-':
+                    result = num1-num2;
+                    break;
+                case '*':
+                    result = num1*num2;
+                    break;
+                case '/':
+                    result = num1/num2;
+                    break;
+            }
+            textField.setText(String.valueOf(result));
+            num1 = result;
+        }
+    }
+
+    private void appendOperationToTextField(ActionEvent e) {
         if (e.getSource() == decimalButton){
             textField.setText(textField.getText().concat("."));
         }
@@ -146,40 +193,6 @@ public class GUI implements ActionListener {
             num1 = Double.parseDouble(textField.getText());
             operation = '/';
             textField.setText("");
-        }
-        if (e.getSource() == equalsButton){
-            num2 = Double.parseDouble(textField.getText());
-            switch (operation){
-                case '+':
-                    result = num1+num2;
-                    break;
-                case '-':
-                    result = num1-num2;
-                    break;
-                case '*':
-                    result = num1*num2;
-                    break;
-                case '/':
-                    result = num1/num2;
-                    break;
-            }
-            textField.setText(String.valueOf(result));
-            num1 = result;
-        }
-        if (e.getSource() == clearButton){
-            textField.setText("");
-        }
-        if (e.getSource() == deleteButton){
-            String value = textField.getText();
-            textField.setText("");
-            for (int i = 0; i < value.length()-1; i++){
-                textField.setText(textField.getText()+ value.charAt(i));
-            }
-        }
-        if (e.getSource() == negativeButton){
-            double value = Double.parseDouble(textField.getText());
-            value *= -1;
-            textField.setText(String.valueOf(value));
         }
     }
 }
